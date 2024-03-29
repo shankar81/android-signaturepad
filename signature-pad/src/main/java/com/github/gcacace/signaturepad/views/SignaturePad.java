@@ -66,6 +66,8 @@ public class SignaturePad extends View {
     private final int DEFAULT_ATTR_PEN_COLOR = Color.BLACK;
     private final float DEFAULT_ATTR_VELOCITY_FILTER_WEIGHT = 0.9f;
     private final boolean DEFAULT_ATTR_CLEAR_ON_DOUBLE_CLICK = false;
+    private final boolean DEFAULT_ATTR_PRESERVE = true;
+    private final boolean mPreserve;
 
     private Paint mPaint = new Paint();
     private Bitmap mSignatureBitmap = null;
@@ -81,6 +83,7 @@ public class SignaturePad extends View {
 
         //Configurable parameters
         try {
+            mPreserve = a.getBoolean(R.styleable.SignaturePad_preserve, DEFAULT_ATTR_PRESERVE);
             mMinWidth = a.getDimensionPixelSize(R.styleable.SignaturePad_penMinWidth, convertDpToPx(DEFAULT_ATTR_PEN_MIN_WIDTH_PX));
             mMaxWidth = a.getDimensionPixelSize(R.styleable.SignaturePad_penMaxWidth, convertDpToPx(DEFAULT_ATTR_PEN_MAX_WIDTH_PX));
             mPaint.setColor(a.getColor(R.styleable.SignaturePad_penColor, DEFAULT_ATTR_PEN_COLOR));
@@ -111,6 +114,7 @@ public class SignaturePad extends View {
 
     @Override
     protected Parcelable onSaveInstanceState() {
+        if (!mPreserve) return super.onSaveInstanceState();
         try {
             Bundle bundle = new Bundle();
             bundle.putParcelable("superState", super.onSaveInstanceState());
@@ -127,6 +131,10 @@ public class SignaturePad extends View {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
+        if (!mPreserve) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
             this.setSignatureBitmap((Bitmap) bundle.getParcelable("signatureBitmap"));

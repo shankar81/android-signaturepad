@@ -6,5 +6,6 @@
         <attr name="penColor" format="color" />
         <attr name="velocityFilterWeight" format="float" />
         <attr name="clearOnDoubleClick" format="boolean"/>
+        <attr name="preserve" format="boolean"/>
     </declare-styleable>
 </resources>
