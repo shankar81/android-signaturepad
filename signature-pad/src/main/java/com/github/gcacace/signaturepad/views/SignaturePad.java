@@ -67,7 +67,7 @@ public class SignaturePad extends View {
     private final float DEFAULT_ATTR_VELOCITY_FILTER_WEIGHT = 0.9f;
     private final boolean DEFAULT_ATTR_CLEAR_ON_DOUBLE_CLICK = false;
     private final boolean DEFAULT_ATTR_PRESERVE = true;
-    private final boolean mPreserve;
+    private boolean mPreserve;
 
     private Paint mPaint = new Paint();
     private Bitmap mSignatureBitmap = null;
@@ -157,6 +157,15 @@ public class SignaturePad extends View {
         } catch (Resources.NotFoundException ex) {
             setPenColor(Color.parseColor("#000000"));
         }
+    }
+
+    /**
+     * Set flag preserve true or false
+     *
+     * @param shouldPreserve if signature should be preserved when activity is destroyed.
+     */
+    public void setPreserve(boolean shouldPreserve) {
+        mPreserve = shouldPreserve;
     }
 
     /**
